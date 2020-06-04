@@ -75,7 +75,18 @@ paths:
     get:
       summary: Verify your app works
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  website:
+                    type: string
       operationId: get-app-verify_credentials
       parameters:
         - schema:
@@ -84,22 +95,110 @@ paths:
           name: Authorization
           description: 'Bearer <app token here>'
           required: true
+      description: "Confirm that the app's OAuth2 credentials work."
+  /oauth/authorize:
+    get:
+      summary: Authorize a user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples: {}
+      operationId: get-oauth-authorize
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:
-                name:
+                force_login:
                   type: string
-                website:
+                  description: 'Added in 2.6.0. Forces the user to re-login, which is necessary for authorizing with multiple accounts from the same instance.'
+                response_type:
                   type: string
-            examples:
-              example:
-                value:
-                  name: example app
-                  website: null
-        description: 'If the Authorization header was provided with a valid token, you should see your app returned as an Application entity.'
-      description: "Confirm that the app's OAuth2 credentials work."
+                  description: Should be set equal to code.
+                client_id:
+                  type: string
+                  description: 'Client ID, obtained during app registration.'
+                redirect_uri:
+                  type: string
+                  description: 'Set a URI to redirect the user to. If this parameter is set to urn:ietf:wg:oauth:2.0:oob then the authorization code will be shown instead. Must match one of the redirect URIs declared during app registration.'
+                scope:
+                  type: string
+                  description: 'List of requested OAuth scopes, separated by spaces (or by pluses, if using query parameters). Must be a subset of scopes declared during app registration. If not provided, defaults to read.'
+              required:
+                - response_type
+                - client_id
+                - redirect_uri
+        description: ''
+      description: 'Displays an authorization form to the user. If approved, it will create and return an authorization code, then redirect to the desired redirect_uri, or show the authorization code if urn:ietf:wg:oauth:2.0:oob was requested. The authorization code can be used while requesting a token to obtain access to user-level methods.'
+  /oauth/revoke:
+    post:
+      summary: Revoke token
+      operationId: post-oauth-revoke
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                token:
+                  type: string
+      description: Revoke an access token to make it no longer valid for use.
+  /oauth/token:
+    post:
+      summary: Obtain a token
+      operationId: post-oauth-token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                  scope:
+                    type: string
+                  created_at:
+                    type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                  description: ''
+                client_secret:
+                  type: string
+                redirect_uri:
+                  type: string
+                scope:
+                  type: string
+                code:
+                  type: string
+                grant_type:
+                  type: string
+              required:
+                - client_id
+                - client_secret
+                - redirect_uri
+      description: 'Returns an access token, to be used during API calls that are not public.'
 components:
   schemas: {}
