@@ -5,6 +5,14 @@ info:
   license:
     name: GNU Free Documentation License Version 1.3
     url: 'https://www.gnu.org/licenses/fdl-1.3.txt'
+  contact:
+    url: 'https://discord.gg/PBp8rJt'
+    name: Technopolis official Discord server
+  description: |-
+    Technopolis is a globally interconnected micro-blogging platform inspired by Misskey.
+
+    Notes on using the API:
+    When using Mastodon-compatible API, set Content-Type header to "application/x-www-form-urlencoded".
 servers:
   - url: 'http://technopolis.example'
     description: ''
@@ -133,12 +141,12 @@ paths:
       parameters:
         - schema:
             type: string
-            example: 'Bearer <OAuth2 token>'
+            example: Bearer <OAuth2 token>
             pattern: ''
           in: header
           name: Authorization
           required: true
-          description: 'Bearer <OAuth2 token here>'
+          description: Bearer <OAuth2 token here>
     parameters: []
   /oauth/authorize:
     get:
@@ -174,7 +182,7 @@ paths:
             schema:
               type: object
               properties:
-                force_login:
+                forceLogin:
                   type: boolean
                 responseType:
                   type: string
@@ -333,7 +341,26 @@ paths:
                 - clientID
                 - clientSecret
                 - token
+            examples: {}
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                token:
+                  type: string
+              required:
+                - client_id
+                - client_secret
+                - token
         description: ''
+      description: |-
+        Revoke an access token to make it no longer valid for use.
+
+        アクセストークンを取り消すことで、アクセストークンの使用を無効にすることができます。
 components:
   schemas: {}
   securitySchemes: {}
