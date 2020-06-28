@@ -361,6 +361,189 @@ paths:
         Revoke an access token to make it no longer valid for use.
 
         アクセストークンを取り消すことで、アクセストークンの使用を無効にすることができます。
+  /api/v1/accounts:
+    post:
+      summary: Register an account アカウントの登録
+      operationId: post-api-v1-accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+      description: |-
+        Creates a user and account records. Returns an account access token for the app that initiated the request. The app should save this token for later, and should wait for the user to confirm their account by clicking a link in their email inbox.
+
+        ユーザーとアカウントのレコードを作成します。要求を開始したアプリのアカウント アクセストークンを返します。アプリはこのトークンを後で使用できるように保存し、ユーザーが電子メールの受信トレイにあるリンクをクリックしてアカウントを確認するのを待つ必要があります。
+      parameters:
+        - schema:
+            type: string
+          in: header
+          required: true
+          name: Authorization
+          description: Bearer <app token>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                agreement:
+                  type: string
+                locale:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+                - agreement
+                - locale
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                agreement:
+                  type: string
+                locale:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+                - agreement
+                - locale
+  /api/v1/accounts/verify_credentials:
+    get:
+      summary: Verify account credentials アカウントの資格情報を確認
+      tags: []
+      responses: {}
+      operationId: get-api-v1-accounts-verify_credentials
+      description: |-
+        Test to make sure that the user token works.
+
+        トークンが機能するかをテストします。
+      parameters:
+        - schema:
+            type: string
+          in: header
+          required: true
+          name: Authorization
+          description: Bearer <user token>
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  username:
+                    type: string
+                  acct:
+                    type: string
+                  display_name:
+                    type: string
+                  locked:
+                    type: boolean
+                  bot:
+                    type: boolean
+                  created_at:
+                    type: string
+                  note:
+                    type: string
+                  url:
+                    type: string
+                  avatar:
+                    type: string
+                  avatar_static:
+                    type: string
+                  followers_count:
+                    type: number
+                  following_count:
+                    type: number
+                  statuses_count:
+                    type: number
+                  last_status_at:
+                    type: string
+                  source:
+                    type: object
+                    properties:
+                      privacy:
+                        type: string
+                      sensitive:
+                        type: boolean
+                      language:
+                        type: string
+                      note:
+                        type: string
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            value:
+                              type: string
+                            verified_at:
+                              type: string
+                      follow_requests_count:
+                        type: number
+                  emojis:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        shortcode:
+                          type: string
+                        url:
+                          type: string
+                        static_url:
+                          type: string
+                        visible_in_picker:
+                          type: boolean
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: string
+                        verified_at:
+                          type: string
 components:
   schemas: {}
   securitySchemes: {}
