@@ -445,7 +445,6 @@ paths:
     get:
       summary: Verify account credentials アカウントの資格情報を確認
       tags: []
-      responses: {}
       operationId: get-api-v1-accounts-verify_credentials
       description: |-
         Test to make sure that the user token works.
@@ -544,6 +543,28 @@ paths:
                           type: string
                         verified_at:
                           type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
 components:
   schemas: {}
   securitySchemes: {}
