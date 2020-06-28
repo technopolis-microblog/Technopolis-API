@@ -565,6 +565,48 @@ paths:
                     type: string
                   error_description:
                     type: string
+  /api/v1/accounts/update_credentials:
+    patch:
+      summary: Update account credentials アカウントの資格情報の更新
+      operationId: patch-api-v1-accounts-update_credentials
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Update the user's display and preferences.
+
+        ユーザーの設定や表示内容を更新します。
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer <user token>
+          required: true
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                discoverable:
+                  type: string
+                bot:
+                  type: string
+                display_name:
+                  type: string
+                note:
+                  type: string
+                avatar:
+                  type: string
+                header:
+                  type: string
+                locked:
+                  type: string
+                source:
+                  type: string
+                fields_attributes:
+                  type: string
 components:
   schemas: {}
   securitySchemes: {}
