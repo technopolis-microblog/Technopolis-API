@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Technopolis Mastodon compatible API",
+    "version": "1.0.0",
+    "description": "Technopolis RESTful API (Mastodon compatible)",
+    "contact": {
+      "name": "Offical Discord server",
+      "url": "https://discord.gg/PBp8rJt"
+    },
+    "license": {
+      "name": "GNU Free Documentation License Version 1.3",
+      "url": "https://www.gnu.org/licenses/fdl-1.3.txt"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://technopolis.example.org"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {}
+  }
+}
