@@ -68,17 +68,17 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  ID:
                     type: string
                   name:
                     type: string
                   website:
                     type: string
-                  redirect_uris:
+                  redirectURIs:
                     type: string
-                  client_id:
+                  clientID:
                     type: string
-                  client_secret:
+                  clientSecret:
                     type: string
               examples:
                 example:
@@ -465,19 +465,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  ID:
                     type: string
                   username:
                     type: string
                   acct:
                     type: string
-                  display_name:
+                  displayName:
                     type: string
                   locked:
                     type: boolean
                   bot:
                     type: boolean
-                  created_at:
+                  createdAt:
                     type: string
                   note:
                     type: string
@@ -485,15 +485,15 @@ paths:
                     type: string
                   avatar:
                     type: string
-                  avatar_static:
+                  avatarStatic:
                     type: string
-                  followers_count:
+                  followersCount:
                     type: number
-                  following_count:
+                  followingCount:
                     type: number
-                  statuses_count:
+                  statusesCount:
                     type: number
-                  last_status_at:
+                  lastStatusAt:
                     type: string
                   source:
                     type: object
@@ -515,9 +515,9 @@ paths:
                               type: string
                             value:
                               type: string
-                            verified_at:
+                            verifiedAt:
                               type: string
-                      follow_requests_count:
+                      followRequestsCount:
                         type: number
                   emojis:
                     type: array
@@ -528,9 +528,9 @@ paths:
                           type: string
                         url:
                           type: string
-                        static_url:
+                        staticURL:
                           type: string
-                        visible_in_picker:
+                        visibleInPicker:
                           type: boolean
                   fields:
                     type: array
@@ -541,7 +541,7 @@ paths:
                           type: string
                         value:
                           type: string
-                        verified_at:
+                        verifiedAt:
                           type: string
         '401':
           description: Unauthorized
@@ -607,6 +607,26 @@ paths:
                   type: string
                 fields_attributes:
                   type: string
-components:
-  schemas: {}
-  securitySchemes: {}
+          application/json:
+            schema:
+              type: object
+              properties:
+                discoverable:
+                  type: string
+                bot:
+                  type: string
+                displayName:
+                  type: string
+                note:
+                  type: string
+                avatar:
+                  type: string
+                header:
+                  type: string
+                locked:
+                  type: string
+                source:
+                  type: string
+                fieldsAttributes:
+                  type: string
+        description: ''
