@@ -258,43 +258,51 @@
         },
         "operationId": "get-oauth-authorize",
         "description": "Displays an authorization form to the user. If approved, it will create and return an authorization code, then redirect to the desired redirect_uri, or show the authorization code if urn:ietf:wg:oauth:2.0:oob was requested. The authorization code can be used while requesting a token to obtain access to user-level methods.",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "force_login": {
-                    "type": "string",
-                    "description": "Forces the user to re-login, which is necessary for authorizing with multiple accounts from the same instance."
-                  },
-                  "response_type": {
-                    "type": "string",
-                    "description": "Should be set equal to code."
-                  },
-                  "client_id": {
-                    "type": "string",
-                    "description": "Client ID, obtained during app registration."
-                  },
-                  "redirect_uri": {
-                    "type": "string",
-                    "description": "Set a URI to redirect the user to. If this parameter is set to urn:ietf:wg:oauth:2.0:oob then the authorization code will be shown instead. Must match one of the redirect URIs declared during app registration."
-                  },
-                  "scope": {
-                    "type": "string",
-                    "description": "List of requested OAuth scopes, separated by spaces (or by pluses, if using query parameters). Must be a subset of scopes declared during app registration. If not provided, defaults to read."
-                  }
-                },
-                "required": [
-                  "response_type",
-                  "client_id",
-                  "redirect_uri"
-                ]
-              }
-            }
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "force_login",
+            "description": "Forces the user to re-login, which is necessary for authorizing with multiple accounts from the same instance."
           },
-          "description": ""
-        }
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "response_type",
+            "required": true,
+            "description": "Should be set equal to code."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "client_id",
+            "required": true,
+            "description": "Client ID, obtained during app registration."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "redirect_uri",
+            "required": true,
+            "description": "Set a URI to redirect the user to. If this parameter is set to urn:ietf:wg:oauth:2.0:oob then the authorization code will be shown instead. Must match one of the redirect URIs declared during app registration."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "scope",
+            "description": "List of requested OAuth scopes, separated by spaces (or by pluses, if using query parameters). Must be a subset of scopes declared during app registration. If not provided, defaults to read."
+          }
+        ]
       }
     },
     "/oauth/token": {
