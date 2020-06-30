@@ -806,6 +806,698 @@
           "description": ""
         }
       }
+    },
+    "/api/v1/accounts/verify_credentials": {
+      "get": {
+        "summary": "Verify account credentials",
+        "tags": [
+          "accounts"
+        ],
+        "responses": {
+          "200": {
+            "description": "Note the extra source property, which is not visible on accounts other than your own. Also note that plain-text is used within source and HTML is used for their corresponding properties such as note and fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "acct": {
+                      "type": "string"
+                    },
+                    "display_name": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "type": "string"
+                    },
+                    "bot": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "avater_static": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "type": "string"
+                    },
+                    "header_static": {
+                      "type": "string"
+                    },
+                    "followers_count": {
+                      "type": "integer"
+                    },
+                    "following_count": {
+                      "type": "integer"
+                    },
+                    "statuses_count": {
+                      "type": "integer"
+                    },
+                    "last_status_at": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "privacy": {
+                          "type": "string"
+                        },
+                        "sensitive": {
+                          "type": "string"
+                        },
+                        "language": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        },
+                        "fields": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              },
+                              "verified_at": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "follow_requests_count": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "emojis": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "shortcodeu": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "static_url": {
+                            "type": "string"
+                          },
+                          "visible_in_picker": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          },
+                          "verified_at": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "845405fb-2b26-478b-9633-e991b86f47b8",
+                      "username": "example",
+                      "acct": "example",
+                      "display_name": "アカウントの例",
+                      "locked": false,
+                      "bot": false,
+                      "created_at": "2020-07-01T00:00:00.000Z",
+                      "note": "このアカウントはただの例だ。",
+                      "url": "https://technopolis.example.org/@example",
+                      "avatar": "https://s3.example.social/example.png",
+                      "avatar_static": "https://s3.example.social/example.png",
+                      "header": "https://s3.example.social/example.png",
+                      "header_static": "https://s3.example.social/example.png",
+                      "followers_count": 114,
+                      "following_count": 514,
+                      "statuses_count": 810100081,
+                      "source": {
+                        "privacy": "public",
+                        "sensitive": false,
+                        "language": "ja-fukushima",
+                        "note": "このアカウントはただの例だ。",
+                        "fields": [
+                          {
+                            "name": "ウェブサイト",
+                            "value": "https://www.pref.fukushima.lg.jp/",
+                            "verified_at": "2020-07-07T00:00:00.000+00:00"
+                          },
+                          {
+                            "name": "COVID-19",
+                            "value": "https://fukushima-covid19.web.app",
+                            "verified_at": "2020-07-07T00:00:00.000+00:00"
+                          }
+                        ],
+                        "follow_requests_count": 0
+                      },
+                      "emojis": [],
+                      "fields": [
+                        {
+                          "name": "Website",
+                          "value": "<a href=\"https://www.pref.fukushima.lg.jp/\" rel=\"me nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">www.pref.fukushima.lg.jp</span><span class=\"invisible\"></span></a>",
+                          "verified_at": "2020-07-07T00:00:00.000+00:00"
+                        },
+                        {
+                          "name": "COVID-19",
+                          "value": "<a href=\"https://fukushima-covid19.web.app\" rel=\"me nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">fukushima-covid19.web.app</span><span class=\"invisible\"></span></a>",
+                          "verified_at": "2020-07-07T00:00:00.000+00:00"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your credential verification will fail if the token is invalid or incorrect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "The access token is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your user account is currently disabled, missing a confirmed email address, or pending approval.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "error": "Your login is currently disabled"
+                    }
+                  },
+                  "unconfirmed": {
+                    "value": {
+                      "error": "Your login is missing a confirmed e-mail address"
+                    }
+                  },
+                  "unapproved": {
+                    "value": {
+                      "error": "Your login is currently pending approval"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-v1-accounts-verify_credentials",
+        "description": "Test to make sure that the user token works.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <user token>",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/update_credentials": {
+      "patch": {
+        "summary": "Update account credentials",
+        "tags": [
+          "accounts"
+        ],
+        "responses": {
+          "200": {
+            "description": "You should use accounts/verify_credentials to first obtain plaintext representations from within the source parameter, then allow the user to edit these plaintext representations before submitting them through this API. The server will generate the corresponding HTML.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "acct": {
+                      "type": "string"
+                    },
+                    "display_name": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "type": "string"
+                    },
+                    "bot": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "avater_static": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "type": "string"
+                    },
+                    "header_static": {
+                      "type": "string"
+                    },
+                    "followers_count": {
+                      "type": "integer"
+                    },
+                    "following_count": {
+                      "type": "integer"
+                    },
+                    "statuses_count": {
+                      "type": "integer"
+                    },
+                    "last_status_at": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "privacy": {
+                          "type": "string"
+                        },
+                        "sensitive": {
+                          "type": "string"
+                        },
+                        "language": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        },
+                        "fields": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              },
+                              "verified_at": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "follow_requests_count": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "emojis": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "shortcodeu": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "static_url": {
+                            "type": "string"
+                          },
+                          "visible_in_picker": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          },
+                          "verified_at": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "845405fb-2b26-478b-9633-e991b86f47b8",
+                      "username": "example",
+                      "acct": "example",
+                      "display_name": "アカウントの例",
+                      "locked": false,
+                      "bot": false,
+                      "created_at": "2020-07-01T00:00:00.000Z",
+                      "note": "このアカウントはただの例だ。",
+                      "url": "https://technopolis.example.org/@example",
+                      "avatar": "https://s3.example.social/example.png",
+                      "avatar_static": "https://s3.example.social/example.png",
+                      "header": "https://s3.example.social/example.png",
+                      "header_static": "https://s3.example.social/example.png",
+                      "followers_count": 114,
+                      "following_count": 514,
+                      "statuses_count": 810100081,
+                      "source": {
+                        "privacy": "public",
+                        "sensitive": false,
+                        "language": "ja-fukushima",
+                        "note": "このアカウントはただの例だ。",
+                        "fields": [
+                          {
+                            "name": "ウェブサイト",
+                            "value": "https://www.pref.fukushima.lg.jp/",
+                            "verified_at": "2020-07-07T00:00:00.000+00:00"
+                          },
+                          {
+                            "name": "COVID-19",
+                            "value": "https://fukushima-covid19.web.app",
+                            "verified_at": "2020-07-07T00:00:00.000+00:00"
+                          }
+                        ],
+                        "follow_requests_count": 0
+                      },
+                      "emojis": [],
+                      "fields": [
+                        {
+                          "name": "Website",
+                          "value": "<a href=\"https://www.pref.fukushima.lg.jp/\" rel=\"me nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">www.pref.fukushima.lg.jp</span><span class=\"invisible\"></span></a>",
+                          "verified_at": "2020-07-07T00:00:00.000+00:00"
+                        },
+                        {
+                          "name": "COVID-19",
+                          "value": "<a href=\"https://fukushima-covid19.web.app\" rel=\"me nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">fukushima-covid19.web.app</span><span class=\"invisible\"></span></a>",
+                          "verified_at": "2020-07-07T00:00:00.000+00:00"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "The access token is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patch-api-v1-accounts-update_credentials",
+        "description": "Update the user's display and preferences.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Bearer <user token>"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "discoverable": {
+                    "type": "string"
+                  },
+                  "bot": {
+                    "type": "string"
+                  },
+                  "display_name": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  },
+                  "avatar": {
+                    "type": "string"
+                  },
+                  "header": {
+                    "type": "string"
+                  },
+                  "locked": {
+                    "type": "string"
+                  },
+                  "source[privacy]": {
+                    "type": "string"
+                  },
+                  "source[sensitive]": {
+                    "type": "boolean"
+                  },
+                  "source[language]": {
+                    "type": "string"
+                  },
+                  "fields_attributes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "account_id",
+          "in": "path",
+          "required": true,
+          "description": "The id of the account in the database"
+        }
+      ],
+      "get": {
+        "summary": "Account",
+        "tags": [
+          "accounts"
+        ],
+        "responses": {
+          "200": {
+            "description": "Account record will be returned. Note that acct of local users does not include the domain name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "If the instance is in whitelist mode and the Authorization header is missing or invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "This API requires an authenticated user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "Record not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Account does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "Account suspended"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-v1-accounts-account_id",
+        "description": "View information about a profile."
+      }
+    },
+    "/api/v1/accounts/{id}/statuses/": {
+      "get": {
+        "summary": "Statuses",
+        "tags": [
+          "accounts"
+        ],
+        "responses": {},
+        "operationId": "get-api-v1-accounts-:id-statuses",
+        "description": "Statuses posted to the given account.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <user token>"
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The id of the account in the database"
+        }
+      ]
     }
   },
   "components": {
