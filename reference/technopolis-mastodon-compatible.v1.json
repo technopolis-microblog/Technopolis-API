@@ -18,7 +18,426 @@
       "url": "http://technopolis.example.org"
     }
   ],
-  "paths": {},
+  "paths": {
+    "/api/v1/apps": {
+      "post": {
+        "summary": "Create an application",
+        "tags": [
+          "apps"
+        ],
+        "responses": {
+          "200": {
+            "description": "Store the client_id and client_secret in your cache, as these will be used to obtain OAuth tokens.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    },
+                    "redirect_uri": {
+                      "type": "string"
+                    },
+                    "client_id": {
+                      "type": "string"
+                    },
+                    "client_secret": {
+                      "type": "string"
+                    },
+                    "vapid_key": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "47e6315b-ddc0-40bc-ab4e-84182155bfcb",
+                      "name": "Example application",
+                      "website": "https://example.org/example-app",
+                      "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
+                      "client_id": "< CLIENT ID HERE >",
+                      "client_secret": "< CLIENT SECRET HERE >",
+                      "vapid_key": "<VAPID KEY HERE>"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "description": "If a required parameter is missing or improperly formatted, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "Validation failed: Redirect URI must be an absolute URI."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-api-v1-apps",
+        "description": "Create a new application to obtain OAuth2 credentials.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_name": {
+                    "type": "string",
+                    "description": "A name for your application"
+                  },
+                  "redirect_uris": {
+                    "type": "string",
+                    "description": "Where the user should be redirected after authorization. To display the authorization code to the user instead of redirecting to a web page, use urn:ietf:wg:oauth:2.0:oob in this parameter."
+                  },
+                  "scopes": {
+                    "type": "string",
+                    "description": "Space separated list of scopes. If none is provided, defaults to read."
+                  },
+                  "website": {
+                    "type": "string",
+                    "description": "A URL to the homepage of your app"
+                  }
+                },
+                "required": [
+                  "client_name",
+                  "redirect_uris"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/api/v1/apps/verify_credentials": {
+      "get": {
+        "summary": "Verify your app works",
+        "tags": [
+          "apps"
+        ],
+        "responses": {
+          "200": {
+            "description": "If the Authorization header was provided with a valid token, you should see your app returned as an Application entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    },
+                    "vapid_key": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "name": "example application",
+                      "website": "https://example.org/example-app",
+                      "vapid_key": "< VAPID KEY HERE>"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "If the Authorization header contains an invalid token, is malformed, or is not present, an error will be returned indicating an authorization failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "The access token is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-v1-apps-verify_credentials",
+        "description": "Confirm that the app's OAuth2 credentials work.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <app token>",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/oauth/authorize": {
+      "get": {
+        "summary": "Authorize a user",
+        "tags": [
+          "oauth"
+        ],
+        "responses": {
+          "200": {
+            "description": "The authorization code will be returned as a query parameter named code.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "example": {
+                    "value": "https://example.org/example-app?code=qDFUEaYrRK5c-HNmTCJbAzazwLRInJ7VHFat0wcMgCU"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the authorization code is incorrect or has been used already, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "invalid_grant",
+                      "error_description": "The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-oauth-authorize",
+        "description": "Displays an authorization form to the user. If approved, it will create and return an authorization code, then redirect to the desired redirect_uri, or show the authorization code if urn:ietf:wg:oauth:2.0:oob was requested. The authorization code can be used while requesting a token to obtain access to user-level methods.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "force_login": {
+                    "type": "string",
+                    "description": "Forces the user to re-login, which is necessary for authorizing with multiple accounts from the same instance."
+                  },
+                  "response_type": {
+                    "type": "string",
+                    "description": "Should be set equal to code."
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "description": "Client ID, obtained during app registration."
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "Set a URI to redirect the user to. If this parameter is set to urn:ietf:wg:oauth:2.0:oob then the authorization code will be shown instead. Must match one of the redirect URIs declared during app registration."
+                  },
+                  "scope": {
+                    "type": "string",
+                    "description": "List of requested OAuth scopes, separated by spaces (or by pluses, if using query parameters). Must be a subset of scopes declared during app registration. If not provided, defaults to read."
+                  }
+                },
+                "required": [
+                  "response_type",
+                  "client_id",
+                  "redirect_uri"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "summary": "Obtain a token",
+        "tags": [
+          "oauth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Store this access_token for later use with auth-required methods. The token should be passed as an HTTP Authorization header when making API calls, with the value Bearer access_token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "type": "string"
+                    },
+                    "scope": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "access_token": "v2.local.QAxIpVe-ECVNI1z4xQbm_qQYomyT3h8FtV8bxkz8pBJWkT8f7HtlOpbroPDEZUKop_vaglyp76CzYy375cHmKCW8e1CCkV0Lflu4GTDyXMqQdpZMM1E6OaoQW27gaRSvWBrR3IgbFIa0AkuUFw.UGFyYWdvbiBJbml0aWF0aXZlIEVudGVycHJpc2Vz",
+                      "token_type": "Bearer",
+                      "scope": "read write follow push",
+                      "created_at": 1593492030
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If you try to request a scope that was not included when registering the app, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "invalid_scope",
+                      "error_description": "The requested scope is invalid, unknown, or malformed."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "If client_id and client_secret do not match or are invalid, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "invalid_client",
+                      "error_description": "Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-oauth-token",
+        "description": "Returns an access token, to be used during API calls that are not public.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "description": "Client ID, obtained during app registration"
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "Client secret, obtained during app registration"
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "Set a URI to redirect the user to. If this parameter is set to urn:ietf:wg:oauth:2.0:oob then the token will be shown instead. Must match one of the redirect URIs declared during app registration."
+                  },
+                  "scope": {
+                    "type": "string",
+                    "description": "List of requested OAuth scopes, separated by spaces. Must be a subset of scopes declared during app registration. If not provided, defaults to read."
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "A user authorization code, obtained via /oauth/authorize"
+                  },
+                  "grant_type": {
+                    "type": "string",
+                    "description": "Set equal to authorization_code if code is provided in order to gain user-level access. Otherwise, set equal to client_credentials to obtain app-level access only."
+                  }
+                },
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "redirect_uri",
+                  "grant_type"
+                ]
+              }
+            }
+          },
+          "description": "Returns an access token, to be used during API calls that are not public."
+        }
+      }
+    }
+  },
   "components": {
     "schemas": {}
   }
