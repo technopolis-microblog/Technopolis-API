@@ -436,6 +436,89 @@
           "description": "Returns an access token, to be used during API calls that are not public."
         }
       }
+    },
+    "/oauth/revoke": {
+      "post": {
+        "summary": "Revoke token",
+        "tags": [
+          "oauth"
+        ],
+        "responses": {
+          "200": {
+            "description": "If you own the provided token, the API call will provide an empty response. This operation is idempotent, so calling this API multiple times will still return OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "example": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "If you provide a token you do not own, or no token at all, the API call will return a 403 error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "error": "unauthorized_client",
+                      "error_description": "You are not authorized to revoke this token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-oauth-revoke",
+        "description": "Revoke an access token to make it no longer valid for use.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "description": "Client ID, obtained during app registration"
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "Client secret, obtained during app registration"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "The previously obtained token, to be invalidated"
+                  }
+                },
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "token"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
+      }
     }
   },
   "components": {
