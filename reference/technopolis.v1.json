@@ -15,10 +15,95 @@
   },
   "servers": [
     {
-      "url": "http://technopolis.example.org"
+      "url": "http://technopolis.example.org/api/v1"
     }
   ],
-  "paths": {},
+  "paths": {
+    "/oauth/token": {
+      "get": {
+        "summary": "Authorize a user",
+        "tags": [
+          "oauth"
+        ],
+        "operationId": "get-oauth-token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "forceLogin": {
+                    "type": "boolean"
+                  },
+                  "responseType": {
+                    "type": "string"
+                  },
+                  "clientID": {
+                    "type": "string"
+                  },
+                  "redirectURI": {
+                    "type": "string"
+                  },
+                  "scope": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "forceLogin",
+                  "responseType",
+                  "clientID",
+                  "redirectURI"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Found",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "example": {
+                    "value": "redirectURI?code=v2.local.QAxIpVe-ECVNI1z4xQbm_qQYomyT3h8FtV8bxkz8pBJWkT8f7HtlOpbroPDEZUKop_vaglyp76CzYy375cHmKCW8e1CCkV0Lflu4GTDyXMqQdpZMM1E6OaoQW27gaRSvWBrR3IgbFIa0AkuUFw.UGFyYWdvbiBJbml0aWF0aXZlIEVudGVycHJpc2Vz"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "delete": {
+        "summary": "Revoke token",
+        "tags": [
+          "oauth"
+        ],
+        "responses": {},
+        "operationId": "delete-oauth-token"
+      },
+      "post": {
+        "summary": "Obtain a token",
+        "tags": [
+          "oauth"
+        ],
+        "responses": {},
+        "operationId": "post-oauth-token"
+      }
+    }
+  },
   "components": {
     "schemas": {
       "User": {
