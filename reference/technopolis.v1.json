@@ -20,6 +20,129 @@
   ],
   "paths": {},
   "components": {
-    "schemas": {}
+    "schemas": {
+      "User": {
+        "title": "User",
+        "type": "object",
+        "description": "The user model is almost the same as Mastodon account model. but, one difference is that Actor of Activitystream is separate.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "locked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "createdAt",
+          "locked"
+        ]
+      },
+      "Actor": {
+        "title": "Actor",
+        "type": "object",
+        "description": "Actor model represents an Actor. It's associated with the User model.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "owner": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actorType": {
+            "type": "string",
+            "enum": [
+              "Application",
+              "Group",
+              "Person"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16,
+            "pattern": "^[A-Za-z0-9_]+"
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri"
+          },
+          "header": {
+            "type": "string",
+            "format": "uri"
+          },
+          "followersCount": {
+            "type": "integer"
+          },
+          "followingCount": {
+            "type": "integer"
+          },
+          "statusesCount": {
+            "type": "integer"
+          },
+          "language": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "owner",
+          "actorType",
+          "name",
+          "followersCount",
+          "followingCount",
+          "statusesCount"
+        ]
+      },
+      "Error": {
+        "title": "Error",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "message"
+        ],
+        "x-examples": {},
+        "description": "Error model represents an Error."
+      }
+    }
   }
 }
