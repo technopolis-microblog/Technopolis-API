@@ -77,7 +77,7 @@
                 },
                 "examples": {
                   "example": {
-                    "value": "redirectURI?code=v2.local.QAxIpVe-ECVNI1z4xQbm_qQYomyT3h8FtV8bxkz8pBJWkT8f7HtlOpbroPDEZUKop_vaglyp76CzYy375cHmKCW8e1CCkV0Lflu4GTDyXMqQdpZMM1E6OaoQW27gaRSvWBrR3IgbFIa0AkuUFw.UGFyYWdvbiBJbml0aWF0aXZlIEVudGVycHJpc2Vz"
+                    "value": "redirectURI?code=y42iXs3uKhp9bNSY3dvXQYQPtxLeRTdU22DBRLcuf8DHucDv3sRdcFutihpkjVcW"
                   }
                 }
               }
@@ -91,16 +91,206 @@
         "tags": [
           "oauth"
         ],
-        "responses": {},
-        "operationId": "delete-oauth-token"
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-ja": {
+                    "value": {
+                      "error": "INVALID_TOKEN",
+                      "message": "トークンが不正です。"
+                    }
+                  },
+                  "example-en": {
+                    "value": {
+                      "error": "INVALID_TOKEN",
+                      "message": "トークンが不正です。"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "delete-oauth-token",
+        "description": "Revoke an access token to make it no longer valid for use.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "clientID": {
+                    "type": "string"
+                  },
+                  "clientSecret": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "clientID",
+                  "clientSecret",
+                  "token"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
       },
       "post": {
         "summary": "Obtain a token",
         "tags": [
           "oauth"
         ],
-        "responses": {},
-        "operationId": "post-oauth-token"
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    },
+                    "tokenType": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "access_token": "v2.local.QAxIpVe-ECVNI1z4xQbm_qQYomyT3h8FtV8bxkz8pBJWkT8f7HtlOpbroPDEZUKop_vaglyp76CzYy375cHmKCW8e1CCkV0Lflu4GTDyXMqQdpZMM1E6OaoQW27gaRSvWBrR3IgbFIa0AkuUFw.UGFyYWdvbiBJbml0aWF0aXZlIEVudGVycHJpc2Vz",
+                      "token_type": "Bearer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If you try to request a scope that was not included when registering the app, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-ja": {
+                    "value": {
+                      "error": "INVALID_SCOPE",
+                      "message": "リクエストされたスコープは無効です。"
+                    }
+                  },
+                  "example-en": {
+                    "value": {
+                      "error": "invalid_scope",
+                      "message": "The requested scope is invalid."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "If clientID and clientSecret do not match or are invalid, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-ja": {
+                    "value": {
+                      "error": "INVALID_CLIENT",
+                      "message": "クライアント認証に失敗しました。クライアントIDまたはシークレットが不正です。"
+                    }
+                  },
+                  "example-en": {
+                    "value": {
+                      "error": "INVALID_CLIENT",
+                      "message": "Client authentication failed. The client ID or secret is invalid."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-oauth-token",
+        "description": "Returns an access token, to be used during API calls that are not public.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "clientID": {
+                    "type": "string"
+                  },
+                  "clientSecret": {
+                    "type": "string"
+                  },
+                  "redirectURI": {
+                    "type": "string"
+                  },
+                  "scopes": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  },
+                  "grantType": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "clientID",
+                  "clientSecret",
+                  "redirectURI",
+                  "grantType"
+                ]
+              }
+            }
+          }
+        }
       }
     }
   },
