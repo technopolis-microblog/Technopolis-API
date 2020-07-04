@@ -44,7 +44,7 @@
                   "redirectURI": {
                     "type": "string"
                   },
-                  "scope": {
+                  "scopes": {
                     "type": "string"
                   }
                 },
