@@ -60,7 +60,7 @@
         },
         "responses": {
           "302": {
-            "description": "Found",
+            "description": "The authorization code will be returned as a query parameter named code.",
             "headers": {
               "Location": {
                 "schema": {
@@ -78,6 +78,38 @@
                 "examples": {
                   "example": {
                     "value": "redirectURI?code=y42iXs3uKhp9bNSY3dvXQYQPtxLeRTdU22DBRLcuf8DHucDv3sRdcFutihpkjVcW"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the authorization code is incorrect or has been used already, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-ja": {
+                    "value": {
+                      "error": "INVALID_GRANT",
+                      "message": "認可グラントが無効です。"
+                    }
+                  },
+                  "example-en": {
+                    "value": {
+                      "error": "INVALID_GRANT",
+                      "message": "The authorization grant is invalid."
+                    }
                   }
                 }
               }
