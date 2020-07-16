@@ -324,6 +324,194 @@
           }
         }
       }
+    },
+    "/apps": {
+      "post": {
+        "summary": "Create an application",
+        "tags": [
+          "apps",
+          "oauth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Store the clientID and clientSecret in your cache, as these will be used to obtain OAuth tokens.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    },
+                    "redirectURI": {
+                      "type": "string"
+                    },
+                    "clientID": {
+                      "type": "string"
+                    },
+                    "clientSecret": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If a required parameter is missing or improperly formatted, the request will fail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-ja": {
+                    "value": {
+                      "error": "VALIDATION_FAILED",
+                      "message": "リダイレクト先は絶対URIである必要性があります。"
+                    }
+                  },
+                  "example-en": {
+                    "value": {
+                      "error": "VALIDATION_FAILED",
+                      "message": "Redirect URI must be an absolute URI."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-apps",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "clientName": {
+                    "type": "string"
+                  },
+                  "redirectURIs": {
+                    "type": "string"
+                  },
+                  "scopes": {
+                    "type": "string"
+                  },
+                  "website": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "clientName",
+                  "redirectURIs"
+                ]
+              }
+            }
+          }
+        },
+        "description": "Create a new application to obtain OAuth2 credentials."
+      }
+    },
+    "/apps/test": {
+      "get": {
+        "summary": "Verify your app works",
+        "tags": [
+          "apps",
+          "oauth"
+        ],
+        "responses": {
+          "200": {
+            "description": "If the Authorization header was provided with a valid token, you should see your app returned as an Application entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ID": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "ID": "4110ab1d-d4c5-43ca-a8a8-c9173c05ea1b",
+                      "name": "Example of Application",
+                      "website": "https://example.org"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-ja": {
+                    "value": {
+                      "error": "TOKEN_INVALID",
+                      "message": "アクセストークンが不正です。"
+                    }
+                  },
+                  "example-en": {
+                    "value": {
+                      "error": "TOKEN_INVALID",
+                      "message": "The access token is invalid."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-apps-test",
+        "description": "Confirm that the app's OAuth2 credentials work.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <app token>",
+            "required": true
+          }
+        ]
+      }
     }
   },
   "components": {
